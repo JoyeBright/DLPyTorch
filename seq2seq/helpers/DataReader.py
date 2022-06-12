@@ -1,4 +1,6 @@
-from modules.lib import *
+from helpers.PreProcessing import NormalizeString
+from helpers.Lang import Lang
+from models.config_WOAttention import *
 
 class DataReader:
     """

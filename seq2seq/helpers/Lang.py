@@ -1,4 +1,4 @@
-from modules.lib import *
+
 
 class Lang:
     def __init__(self, name):

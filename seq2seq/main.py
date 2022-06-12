@@ -1,9 +1,12 @@
-from modules.lib import *
+import random
+from helpers.DataReader import DataReader
+from models.config_WOAttention import *
+from models.seq2seq_WOAttention import EncoderRNN, DecoderRNN, trainIters
 
 # read the input data
 d = DataReader("eng", "fra", config_WOAttention['max_length_data'], True)
 input_lang, output_lang, pairs = d.PrepareData()
-# prints a random pair
+# print a random pair
 print(random.choice(pairs))
 # initialize the encoder
 encoder1 = EncoderRNN(input_lang.n_words, config_WOAttention['hidden_size']).to(config_WOAttention['device'])

@@ -1,4 +1,5 @@
-from modules.lib import *
+import math
+import time
 
 def asMinutes(s):
     m = math.floor(s / 60)

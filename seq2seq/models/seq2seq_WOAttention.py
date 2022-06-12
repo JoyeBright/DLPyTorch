@@ -1,4 +1,11 @@
-from modules.lib import *
+import time
+import torch
+import torch.nn as nn
+from torch import optim
+from models.config_WOAttention import *
+from helpers.DataReader import tensorsFromPair
+from helpers.Timer import timeSince
+from helpers.Plot import showPlot
 
 class EncoderRNN(nn.Module):
     """
@@ -26,7 +33,7 @@ class EncoderRNN(nn.Module):
         return output, hidden
 
     def initHidden(self):
-        return torch.zeros(1, 1, self.hidden_size, device=config_WOAttention['device'])
+        return torch.zeros(1, 1, self.hidden_size, device = config_WOAttention['device'])
 
 class DecoderRNN(nn.Module):
     """

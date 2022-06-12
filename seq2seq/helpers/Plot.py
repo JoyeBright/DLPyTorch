@@ -1,4 +1,7 @@
-from modules.lib import *
+import matplotlib.pyplot as plt
+plt.switch_backend('agg')
+import matplotlib.ticker as ticker
+from models.config_WOAttention import *
 
 def showPlot(points):
     plt.figure()

@@ -1,4 +1,5 @@
-from modules.lib import *
+import unicodedata
+import re
 
 def StripAccents(s):
     return ''.join(

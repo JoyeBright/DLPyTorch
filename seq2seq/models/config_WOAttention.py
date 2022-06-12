@@ -1,4 +1,6 @@
-from modules.lib import *
+import torch
+import random
+import numpy as np
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
@@ -16,7 +18,7 @@ config_WOAttention = {
 "SOS_token": 0,
 "EOS_token": 1,
 "learning_rate": 0.01,
-"n_iters":2000000,
+"n_iters":3000,
 
 "hidden_size":256,
 
