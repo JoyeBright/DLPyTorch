@@ -1,5 +1,5 @@
 # DLPyTorch
-This repository contains deep learning projects that mainly coded in PyTorch.
+This repository contains deep learning projects that most of which were implemented by PyTorch.
 
 ## Projects
 * a simple linear regression model in numpy vs sklearn [intro]
