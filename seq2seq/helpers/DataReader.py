@@ -18,7 +18,7 @@ class DataReader:
 
     def ReadLines(self):
         print("Reading lines...")
-        lines = open("data/%s-%s.txt" % (self.lang1, self.lang2), encoding="utf-8").read().strip().split("\n")
+        lines = open("data" + "/%s-%s.txt" % (self.lang1, self.lang2), encoding="utf-8").read().strip().split("\n")
         return lines
 
     def Splitter(self):

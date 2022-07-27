@@ -11,9 +11,9 @@ np.random.seed(0)
 
 config_WOAttention = {
 
-"max_length_data":15, #Selecting only sentences that their length is less than 15
+"max_length_data":15, # select only sentences with a length of less than 15
 "teacher_forcing_ratio": 0.5,
-"max_length": 80, #of model
+"max_length": 80, # of model
 
 "SOS_token": 0,
 "EOS_token": 1,

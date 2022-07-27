@@ -21,7 +21,7 @@ class Lang:
         Given a word, first check if the word is already in the word2index list
         if not:
             (i) assign an index number for that (it starts from 2)
-            (ii) set word2count to 1 (as it appears for the first time)
+            (ii) set word2count to 1 (one-hot encoding)
             (iii) assign the word to its index (index was already defined in step i)
             (iv) increase n_words by one for the next word
         else:
