@@ -3,6 +3,7 @@ from sklearn.linear_model import LinearRegression
 
 import torch
 import torch.optim as optim
+import torch.nn as nn
 torch.manual_seed(0)
 from torchviz import make_dot
 
@@ -72,11 +73,16 @@ print(a, b)
 # Defining a SGD optimizer to update the parameters
 optimizer = optim.SGD([a, b], lr=lr)
 
+# Defining a MSE loss function
+loss_fn = nn.MSELoss(reduction="mean")
+
 for epoch in range(n_epochs):
 
     yhat = a + b * x_train_tensor
-    error = y_train_tensor - yhat
-    loss = (error ** 2).mean()
+    # error = y_train_tensor - yhat
+    # loss = (error ** 2).mean()
+
+    loss = loss_fn(y_train_tensor, yhat)
 
     loss.backward()
     print(a.grad)
@@ -97,4 +103,4 @@ for epoch in range(n_epochs):
     
 print(a, b)
 # visualization
-make_dot(error)
+make_dot(loss)
