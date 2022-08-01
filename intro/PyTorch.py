@@ -1,6 +1,9 @@
 import torch
 import torch.optim as optim
 import torch.nn as nn
+from torch.utils.data import Dataset, TensorDataset
+from torch.utils.data import DataLoader
+from torch.utils.data.dataset import random_split
 import numpy as np
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -11,19 +14,16 @@ np.random.seed(42)
 x = np.random.rand(100, 1)
 y = 1 + 2 * x
 
-idx = np.arange(100)
-np.random.shuffle(idx)
+# We don't load whole training data to the graphic card's RAM i.e., not using .to(device)!
+x_tensor = torch.from_numpy(x).float()
+y_tensor = torch.from_numpy(y).float()
 
-train_idx = idx[:80]
-val_idx = idx[80:]
+dataset = TensorDataset(x_tensor, y_tensor)
 
-x_train, y_train = x[train_idx], y[train_idx]
-x_val, y_val = x[val_idx], y[val_idx]
+train_dataset, val_dataset = random_split(dataset, [80, 20])
 
-x_train_tensor = torch.from_numpy(x_train).float().to(device)
-y_train_tensor = torch.from_numpy(y_train).float().to(device)
-
-print(type(x_train), type(x_train_tensor), x_train_tensor.type())
+train_loader = DataLoader(dataset=train_dataset, batch_size=16)
+val_loader = DataLoader(dataset=val_dataset, batch_size=4)
 
 # Training Step
 def make_train_step(model, loss_fn, optimizer):
@@ -59,7 +59,7 @@ class LayerLinearRegression(nn.Module):
     def forward(self, x):
         return self.linear(x)
 
-# Instances
+
 # Now we can create a model and send it at once to the device
 model = ManualLinearRegression().to(device)
 model2 = LayerLinearRegression().to(device)
@@ -76,9 +76,25 @@ optimizer = optim.SGD(model2.parameters(), lr=lr)
 
 train_step = make_train_step(model2, loss_fn, optimizer)
 losses = []
+val_losses = []
 
 for e in range(n_epochs):
-    loss = train_step(x_train_tensor, y_train_tensor)
-    losses.append(loss)
+    for x_batch, y_batch in train_loader:
+        
+        x_batch = x_batch.to(device)
+        y_batch = y_batch.to(device)
+
+        loss = train_step(x_batch, y_batch)
+        losses.append(loss)
+
+        with torch.no_grad:
+            for x_val, y_val in val_loader:
+                x_val = x_val.to(device)
+                y_val = y_val.to(device)
+
+                model2.eval()
+                yhay = model2(x_val)
+                val_loss = loss_fn(y_val, yhat)
+                val_losses.append(val_loss.item())
 
 print(model2.state_dict())
